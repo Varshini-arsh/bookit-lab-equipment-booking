@@ -127,6 +127,16 @@ class BookingRulesTests(APITestCase):
         self.assertEqual(res.json()["status"], "rejected")
         self.assertEqual(res.json()["manager_note"], "Printer maintenance")
 
+    def test_today_filter_for_the_lab_desk(self):
+        today = self.book(self.alice, self.scope, tomorrow_at(10), tomorrow_at(11)).json()
+        later = self.book(self.alice, self.scope, tomorrow_at(12), tomorrow_at(13)).json()
+        start = tomorrow_at(12) - timedelta(days=1)  # noon today, local time
+        Booking.objects.filter(pk=today["id"]).update(start=start, end=start + timedelta(minutes=30))
+        Booking.objects.filter(pk=later["id"]).update(start=start + timedelta(days=2), end=start + timedelta(days=2, hours=1))
+        self.client.force_authenticate(self.manager)
+        ids = [b["id"] for b in self.client.get("/api/bookings/?scope=all&when=today").json()]
+        self.assertEqual(ids, [today["id"]])
+
     def test_members_only_see_and_touch_their_own_bookings(self):
         b = self.book(self.alice, self.scope, tomorrow_at(10), tomorrow_at(12)).json()
         self.client.force_authenticate(self.bob)

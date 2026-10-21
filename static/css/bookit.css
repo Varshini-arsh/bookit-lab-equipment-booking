@@ -76,9 +76,11 @@
 .bk.pending { background: repeating-linear-gradient(135deg, var(--surface-2) 0 6px, var(--surface-3) 6px 12px); border-left-color: var(--warning); }
 .bk.mine.pending { background: repeating-linear-gradient(135deg, var(--accent) 0 6px, color-mix(in srgb, var(--accent) 72%, #fff) 6px 12px); }
 .bk.returned { opacity: .55; }
-.sel { position: absolute; left: 3px; right: 3px; border-radius: 7px; z-index: 4; pointer-events: none; padding: 4px 6px; font-size: 11px; font-weight: 600;
+/* Label sits at the bottom so it never covers the name on a booking it overlaps. */
+.sel { position: absolute; left: 3px; right: 3px; border-radius: 7px; z-index: 4; pointer-events: none; font-size: 11px; font-weight: 600;
   background: color-mix(in srgb, var(--accent) 20%, transparent); border: 2px solid var(--accent); color: var(--accent); }
 .sel.bad { background: var(--critical-soft); border-color: var(--critical); color: var(--critical); }
+.sel span { position: absolute; left: 6px; bottom: 3px; padding: 0 4px; border-radius: 4px; background: var(--surface); }
 .checkbox { padding: 12px; border-radius: 10px; font-size: 13px; display: flex; gap: 8px; align-items: flex-start; margin-bottom: 14px; }
 .checkbox.ok { background: color-mix(in srgb, var(--good) 12%, transparent); color: var(--good-ink); }
 .checkbox.bad { background: var(--critical-soft); color: var(--critical); }

@@ -142,11 +142,22 @@ class Command(BaseCommand):
             return timezone.make_aware(datetime.combine(today + timedelta(days=day_offset), time(hour, minute)), tz)
 
         by_tag = {e.asset_tag: e for e in equipment}
-        story = [
-            # Overdue: checked out this morning, should have come back already (if the clock allows).
-            (by_tag["OSC-03"], "nikhil", now - timedelta(hours=4), now - timedelta(hours=1, minutes=30), Booking.Status.CHECKED_OUT),
-            # In use right now.
-            (by_tag["GPU-01"], "fatima", now - timedelta(hours=2), now + timedelta(hours=3), Booking.Status.CHECKED_OUT),
+        # "Live" bookings are relative to the current time but clamped to lab hours (08:00-20:00);
+        # if the seed runs too early or late in the day, they are simply left out.
+        opening, closing = at(0, 8), at(0, 20)
+
+        def live(start, end):
+            start, end = max(start, opening), min(end, closing)
+            return (start, end) if end - start >= timedelta(minutes=30) else None
+
+        story = []
+        overdue = live(now - timedelta(hours=4), now - timedelta(hours=1, minutes=30))  # should be back already
+        in_use = live(now - timedelta(hours=2), now + timedelta(hours=3))  # being used right now
+        if overdue:
+            story.append((by_tag["OSC-03"], "nikhil", *overdue, Booking.Status.CHECKED_OUT))
+        if in_use and in_use[0] <= now < in_use[1]:
+            story.append((by_tag["GPU-01"], "fatima", *in_use, Booking.Status.CHECKED_OUT))
+        story += [
             # Waiting for the manager.
             (by_tag["3DP-01"], "aditya", at(1, 10), at(1, 15), Booking.Status.PENDING),
             (by_tag["GPU-02"], "zoya", at(1, 9), at(1, 17), Booking.Status.PENDING),

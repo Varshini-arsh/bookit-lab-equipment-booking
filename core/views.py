@@ -176,8 +176,11 @@ class BookingViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
         elif params.get("when") == "past":
             qs = qs.filter(end__lt=now).order_by("-start")
         elif params.get("when") == "today":
-            today = timezone.localdate()
-            qs = qs.filter(start__date__lte=today, end__date__gte=today).order_by("start")
+            # A datetime range rather than __date: MySQL's __date needs time-zone tables loaded.
+            midnight = timezone.make_aware(datetime.combine(timezone.localdate(), time.min))
+            qs = qs.filter(start__lt=midnight + timedelta(days=1), end__gt=midnight).order_by("start")
+        else:
+            qs = qs.order_by("-start")  # full history: newest first
         if params.get("equipment"):
             qs = qs.filter(equipment_id=params["equipment"])
         return qs

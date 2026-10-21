@@ -350,7 +350,7 @@ async function viewEquipment(view, id) {
     el.className = `sel ${st.check && !st.check.ok ? "bad" : ""}`;
     el.style.top = `${((st.sel.start - OPEN * 60) / 60) * HOUR_PX}px`;
     el.style.height = `${((st.sel.end - st.sel.start) / 60) * HOUR_PX}px`;
-    el.textContent = `${hm(st.sel.start)}–${hm(st.sel.end)}`;
+    el.innerHTML = `<span>${hm(st.sel.start)}–${hm(st.sel.end)}</span>`;
     day.append(el);
   }
 

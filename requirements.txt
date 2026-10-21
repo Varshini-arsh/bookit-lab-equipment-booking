@@ -1,3 +1,5 @@
 Django==5.1.4
 djangorestframework==3.15.2
 PyMySQL==1.1.1
+# Needed by PyMySQL for MySQL 8 default auth (caching_sha2_password)
+cryptography==43.0.3

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {% include "head.html" %}
+  <title>Sign in · BookIt</title>
+</head>
+<body>
+{% include "icons.html" %}
+<div class="auth">
+  <section class="auth-hero">
+    <div class="brand" style="padding:0;color:#fff">
+      <span class="brand-mark" style="background:rgba(255,255,255,.18)"><svg class="icon"><use href="#i-cal-check"/></svg></span>
+      <span>BookIt</span>
+    </div>
+    <div>
+      <h1>Book shared lab equipment without the clash.</h1>
+      <p>BookIt replaces the paper sign-up sheet on the lab door. See what's free right now, drag across a calendar to book a slot, and let the system catch double-bookings, uncertified users and overdue returns.</p>
+      <ul>
+        <li><svg class="icon"><use href="#i-calendar"/></svg> Week calendar: drag across it to book</li>
+        <li><svg class="icon"><use href="#i-alert"/></svg> Live conflict check while you choose a slot</li>
+        <li><svg class="icon"><use href="#i-lock"/></svg> Safety-certification gate for restricted equipment</li>
+        <li><svg class="icon"><use href="#i-chart"/></svg> Utilisation reports, peak-hour heatmap, CSV export</li>
+      </ul>
+    </div>
+    <small style="opacity:.7">Django · Django REST Framework · MySQL · Vanilla JS</small>
+  </section>
+
+  <section class="auth-form">
+    <div class="box">
+      <h2>Welcome back</h2>
+      <p class="muted" style="margin:0 0 22px">Sign in to the lab booking system.</p>
+      {% if error %}<div class="alert-box" role="alert">{{ error }}</div>{% endif %}
+      <form method="post" style="width:100%">
+        {% csrf_token %}
+        <div class="field"><label for="u">Username</label><input class="input" id="u" name="username" autocomplete="username" required></div>
+        <div class="field"><label for="p">Password</label><input class="input" id="p" name="password" type="password" autocomplete="current-password" required></div>
+        <button class="btn primary" style="width:100%;justify-content:center;padding:10px">Sign in</button>
+      </form>
+
+      {% if demo %}
+      <div class="divider">or explore with a demo account</div>
+      <div class="demo-buttons">
+        <form method="post" action="{% url 'demo-login' 'manager' %}">{% csrf_token %}
+          <button class="btn"><span class="avatar" style="background:#6250d6">LK</span><span><b>Lakshmi Krishnan</b><small>Lab manager · approvals, reports, certifications</small></span></button>
+        </form>
+        <form method="post" action="{% url 'demo-login' 'member' %}">{% csrf_token %}
+          <button class="btn"><span class="avatar" style="background:#2a78d6">FS</span><span><b>Fatima Sheikh</b><small>PhD scholar · certified for GPUs and 3D printers</small></span></button>
+        </form>
+        <form method="post" action="{% url 'demo-login' 'student' %}">{% csrf_token %}
+          <button class="btn"><span class="avatar" style="background:#1baf7a">NV</span><span><b>Nikhil Verma</b><small>B.Tech student · no certifications yet</small></span></button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+</body>
+</html>

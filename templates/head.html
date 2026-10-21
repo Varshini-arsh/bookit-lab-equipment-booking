@@ -1,0 +1,13 @@
+{% load static %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/bookit.css' %}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236250d6'/><path d='M8 10h16v13H8zM8 14h16M12 7v5M20 7v5M13 19l2 2 4-4' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<script>
+  // Apply the saved theme before first paint to avoid a flash.
+  try { const t = localStorage.getItem("bookit-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>

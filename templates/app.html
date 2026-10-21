@@ -1,0 +1,47 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  {% include "head.html" %}
+  <title>BookIt</title>
+</head>
+<body>
+{% csrf_token %}
+{% include "icons.html" %}
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark"><svg class="icon"><use href="#i-cal-check"/></svg></span>
+      <span>BookIt<small>Lab equipment booking</small></span>
+    </div>
+    <nav class="nav" id="nav">
+      <a href="#/catalog" data-route="catalog"><svg class="icon"><use href="#i-dashboard"/></svg>Equipment</a>
+      <a href="#/bookings" data-route="bookings"><svg class="icon"><use href="#i-list"/></svg>My bookings<span class="count" id="count-upcoming"></span></a>
+      <a href="#/certifications" data-route="certifications"><svg class="icon"><use href="#i-badge"/></svg>Certifications</a>
+      <div id="nav-manager" hidden>
+        <div class="nav-label">Lab manager</div>
+        <a href="#/approvals" data-route="approvals"><svg class="icon"><use href="#i-inbox"/></svg>Approvals<span class="badge" id="count-pending" hidden></span></a>
+        <a href="#/reports" data-route="reports"><svg class="icon"><use href="#i-chart"/></svg>Reports</a>
+        <a href="#/audit" data-route="audit"><svg class="icon"><use href="#i-shield"/></svg>Audit log</a>
+      </div>
+    </nav>
+    <div class="sidebar-foot" id="me-box"></div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="btn ghost icon-only menu-btn" id="menu-btn" aria-label="Open menu"><svg class="icon"><use href="#i-menu"/></svg></button>
+      <div class="input-icon" style="flex:0 1 360px"><svg class="icon"><use href="#i-search"/></svg>
+        <input class="input" id="global-search" placeholder="Search equipment, tags, rooms…" aria-label="Search equipment" style="width:100%"></div>
+      <div class="spacer"></div>
+      <button class="btn ghost icon-only" id="theme-btn" aria-label="Toggle dark mode"><svg class="icon"><use href="#i-moon"/></svg></button>
+    </header>
+    <main class="content" id="view" aria-live="polite"></main>
+  </div>
+</div>
+<div class="toasts" id="toasts"></div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

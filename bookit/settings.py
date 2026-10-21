@@ -98,6 +98,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Distinct cookie names so LabFlow and BookIt can run side by side on localhost
+# (browsers share cookies across ports on the same host).
+SESSION_COOKIE_NAME = "bookit_sessionid"
+CSRF_COOKIE_NAME = "bookit_csrftoken"
+
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
